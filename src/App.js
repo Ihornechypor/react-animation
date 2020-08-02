@@ -1,18 +1,71 @@
 import React, {useState} from 'react';
+import { Transition, CSSTransition} from 'react-transition-group';
+import {List} from "./list";
 
 export default function  App() {
     const [toggle, setToggle] = useState(true)
+    const [toggle2, setToggle2] = useState(true)
+    const [items, setItems] = useState([
+
+        {id: 1, title: 'item 1'},
+        {id: 2, title: 'item 2'},
+        {id: 3, title: 'item 3'}
+    ])
+
+    const removeItem = id => setItems(items.filter(i => i.id !== id))
+    const addItem = () => {
+        const title = prompt('enter')
+        const id = Date.now()
+
+        setItems(items.concat([{title, id}]))
+    }
 
     return (
         <div className="container">
             <button onClick={()=>setToggle(!toggle)}>
                 toggle
             </button>
+            <button onClick={()=>setToggle2(!toggle2)}>
+                toggle2
+            </button>
+            <button onClick={addItem}>
+                add
+            </button>
             <hr/>
              <div className="blocks">
-                 {toggle && <div className="square blue">{toggle.toString()}</div>}
+                 <Transition
+                    in={toggle}
+                    timeout={{
+                        enter: 1000,
+                        exit: 500
+                    }}
+                    mountOnEnter
+                    unmountOnExit
+                    onEnter={()=> console.log("onEnter")}
+                    onEntering={()=> console.log("onEntering")}
+                    onEntered={()=> console.log("onEntered")}
+                    onExit={()=> console.log("onExit")}
+                    onExiting={()=> console.log("onExiting")}
+                 >
+                     {state => <div className={`square blue ${state}`}>{state}</div>}
+
+                 </Transition>
+
+                 <CSSTransition
+                     in={toggle2}
+                     timeout={1000}
+                     classNames="os"
+                     unmountOnExit
+                     mountOnEnter
+                 >
+                     <div className="square orange">{toggle2.toString()}</div>
+                 </CSSTransition>
+
 
              </div>
+            <div className="blocks">
+                <List items={items} onRemove={removeItem}/>
+            </div>
         </div>
     )
 }

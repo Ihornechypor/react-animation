@@ -28,14 +28,29 @@ code {
   margin-right: 5rem;
 }
 
+
 .square {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 200px;
   height: 200px;
+
+}
+
+.square.entering {
   animation: square 1000ms ease-out forwards;
 }
+
+.square.exiting {
+  animation: square 500ms ease-in alternate-reverse;
+}
+
+.square.exited {
+  opacity: 0;
+  transform: translateY(-100px);
+}
+
 
 .square.blue {
   background-color: cornflowerblue;
@@ -43,6 +58,32 @@ code {
 
 .square.orange {
   background-color: coral;
+}
+
+.os-enter {
+  opacity: 0;
+}
+
+.os-enter-active {
+  opacity: 1;
+  transition: opacity 1s;
+}
+
+.os-enter-done {
+  transform: translateX(0);
+}
+
+.os-exit {
+  opacity: 1;
+}
+
+.os-exit-active {
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.os-exid-done {
+  opacity: 0;
 }
 
 @keyframes square {
